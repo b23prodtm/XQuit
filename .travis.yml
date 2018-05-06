@@ -1,0 +1,31 @@
+os: osx
+language: objective-c
+osx_image: xcode6.4
+env :
+  global:
+    - GIT_DATE="$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+branches:
+  only:
+    - travis
+    - master
+#before_install:
+#  - git checkout -b master && git branch --track origin/master && git pull origin master
+install:
+  - mkdir -p DerivedData
+  - xcodebuild -version -sdk
+  - xcodebuild -scheme XQuit -derivedDataPath DerivedData
+script:
+  - git config --local user.name $GIT_USERNAME
+  - git config --local user.email $GIT_USERMAIL
+  - git tag $GIT_DATE
+  - tar -v -z -c -f DerivedData/XQuit.xcplugin.tar.gz -C DerivedData/Build/Products/Debug/ XQuit.xcplugin
+deploy:
+  provider: releases
+  api_key:
+    secure: lwnDXTQ+1rILVQfEfqiy66oxD3/9U40Bkpt9xApnvhLQWCqHFzu8f7+RIuOXNgztHDnc99kab2hQyUmK5GtAYaAU8l2pIQu07nDfI/MfzxwekG/iiC5Ut6G9HCcvtDSDW3HwbcrE8leVOAHGXkaKkBoFdF8hJDrKPLiWHVa/DNGiQWNGNX/ISZWuU4dJU59J7NQOO81JPw2ZfcZR10PBlzHJgET4ij1mnStARTDSaEJPjWeTK7bnCYozATptBOhwW271whgnJJv7oLNmy38LicCxIu/WlKB1P++cybvyuFV2udraxeob4IybY2cSbAnAcFqArtY4GtlDoazIRq6P2k98V/SAnumY0HflMHkYeqwa0q7n2Tkwol10WnqUqG6I1ituqR6LcqytXh9FTlkplaBI2iTGHa+DLwUEKXBQRp8hyggxRpEzzGoKEX1+1xG2xwBCsbRJD03S/+TW85AA7XjUzEZ7a6S+x71bqI3kjs83QUpwQQpOQaPLx3rK/ujJVMcSKqErytmvs4Xt0oAopMkG7VgOlyguT/0a8jf2cpoCUx/hqDf1GAYr2tEQ/ZhKsfAU64DF8E5AZ59oim+BSXjkEA4aw1ZzXv3pvG6UNikUx4f4PSCMWprOexCFh92vgirYgF/hm55ceRrutTnRrdPE8xS5UvmPZipsnj6b0+A=
+  file: "DerivedData/XQuit.xcplugin.tar.gz"
+  on:
+    repo: b23prodtm/XQuit
+    tags: false
+  skip_cleanup: true
+
