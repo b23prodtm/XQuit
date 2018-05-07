@@ -12,7 +12,10 @@ jobs:
       - persist_to_workspace:
           root: DerivedData
         # Must be relative path from root
-          paths: Build
+          paths:
+            - Build
+            - Test
+            - Logs
 
       - run: mkdir -p DerivedData
 
@@ -30,21 +33,8 @@ jobs:
     steps:      
       - checkout
       - attach_workspace:
-          at: DerivedData/Build
+          at: DerivedData
 
-      # Deploy release
-      - run:
-          name: tag release
-          command: |
-            git config --local user.name "$GIT_USERNAME"
-            git config --local user.email "$GIT_USERMAIL"
-            git add DerivedData/Build/Products/Debug/XQuit.xcplugin/.
-            git commit -m "Automatic Build" 
-            git tag "$GIT_DATE"
-            git push origin "$GIT_DATE"
-          environment:
-            GIT_DATE: "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-      
       # Collect XML test results data to show in the UI,
       # and save the same XML files under test-results folder
       # in the Artifacts tab
@@ -52,7 +42,7 @@ jobs:
           path: DerivedData/Test
           destination: scan-test-results
       - store_artifacts:
-          path: Logs/Test
+          path: DerivedData/Logs/Test
           destination: scan-logs
 
 workflows:
