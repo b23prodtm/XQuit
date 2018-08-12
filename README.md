@@ -4,6 +4,8 @@ XQuit is an open source XCode plugin.
 Sometimes you just use the wrong shortcut and press `⌘+Q`...<br />
 With this plugin you don't have to worry about that awkwardness!<br />
 It ask you if you really want to Quit Xcode.
+### Setup
+To install this plugin, open the Finder, browse to (⌘+shift+G) ```~/Library/Application Support/Developer/Shared/Xcode/Plug-ins``` and copy XQuit.xcplugin to that folder.
 
 ![Main](screenshots/main.png)
 
