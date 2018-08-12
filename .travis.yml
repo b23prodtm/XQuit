@@ -18,7 +18,7 @@ script:
   - git config --local user.name $GIT_USERNAME
   - git config --local user.email $GIT_USERMAIL
   - git tag $GIT_DATE
-  - tar -v -z -c -f DerivedData/XQuit.xcplugin.tar.gz -C DerivedData/Build/Products/Debug/ XQuit.xcplugin
+  - tar -v -z -c -h -f DerivedData/XQuit.xcplugin.tar.gz -C DerivedData/Build/Products/Debug/ XQuit.xcplugin
 deploy:
   provider: releases
   api_key:
